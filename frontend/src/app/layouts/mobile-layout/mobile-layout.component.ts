@@ -34,7 +34,8 @@ export class MobileLayoutComponent {
             workflow: '发货流程',
             conversations: '对话消息',
             logs: '系统日志',
-            setting: '系统设置'
+            setting: '系统设置',
+            'time-setting': '时间设置'
         };
         return titles[this.currentView()] || '';
     });
