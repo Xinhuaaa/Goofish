@@ -63,7 +63,10 @@ export function initWSEvents(getClientManager: () => ClientManager | null) {
     // 账号更新
     appEvents.on(Events.ACCOUNTS_UPDATED, () => {
         broadcast('accounts', () => {
-            const accounts = getAllAccounts()
+            const accounts = getAllAccounts().map(a => ({
+                ...a,
+                cookies: '******'
+            }))
             const clientManager = getClientManager()
             const clients = clientManager?.getStatus() || []
             return { accounts, clients }
@@ -186,7 +189,10 @@ function sendInitialData(
                 break
             }
             case 'accounts': {
-                const accounts = getAllAccounts()
+                const accounts = getAllAccounts().map(a => ({
+                    ...a,
+                    cookies: '******'
+                }))
                 const clientManager = getClientManager()
                 const clients = clientManager?.getStatus() || []
                 data = { accounts, clients }

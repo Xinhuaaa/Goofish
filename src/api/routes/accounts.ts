@@ -24,7 +24,7 @@ export function createAccountRoutes(getClientManager: () => ClientManager | null
     router.get('/', (c) => {
         const accounts = getAllAccounts().map(a => ({
             ...a,
-            cookies: a.cookies.length > 50 ? a.cookies.substring(0, 50) + '...' : a.cookies,
+            cookies: '******',
             status: getAccountStatus(a.id)
         }))
         return c.json({ accounts })
@@ -39,7 +39,7 @@ export function createAccountRoutes(getClientManager: () => ClientManager | null
         }
         return c.json({
             ...account,
-            cookies: account.cookies.length > 50 ? account.cookies.substring(0, 50) + '...' : account.cookies,
+            cookies: '******',
             status: getAccountStatus(id)
         })
     })

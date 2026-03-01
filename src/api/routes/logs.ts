@@ -4,6 +4,16 @@ import path from 'path'
 
 const logsDir = path.join(process.cwd(), 'logs')
 
+// 验证日期格式（防止路径遍历）
+function isValidDate(date: string): boolean {
+    return /^\d{4}-\d{2}-\d{2}$/.test(date)
+}
+
+// 验证文件名（防止路径遍历）
+function isValidFilename(file: string): boolean {
+    return /^[\w\-.]+\.log$/.test(file) && !file.includes('..') && !file.includes('/')
+}
+
 export function createLogsRoutes() {
     const app = new Hono()
 
@@ -28,6 +38,9 @@ export function createLogsRoutes() {
     app.get('/files/:date', (c) => {
         try {
             const date = c.req.param('date')
+            if (!isValidDate(date)) {
+                return c.json({ error: '无效的日期格式' }, 400)
+            }
             const dayDir = path.join(logsDir, date)
             if (!fs.existsSync(dayDir)) {
                 return c.json({ files: [] })
@@ -50,6 +63,9 @@ export function createLogsRoutes() {
         try {
             const date = c.req.param('date')
             const file = c.req.param('file')
+            if (!isValidDate(date) || !isValidFilename(file)) {
+                return c.json({ error: '无效的参数' }, 400)
+            }
             const level = c.req.query('level')
             const limit = c.req.query('limit') || '500'
             const filePath = path.join(logsDir, date, file)
