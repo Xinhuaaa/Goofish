@@ -11,7 +11,7 @@ function isValidDate(date: string): boolean {
 
 // 验证文件名（防止路径遍历）
 function isValidFilename(file: string): boolean {
-    return /^[\w\-.]+\.log$/.test(file) && !file.includes('..') && !file.includes('/')
+    return /^[\w-]+\.log$/.test(file)
 }
 
 export function createLogsRoutes() {
